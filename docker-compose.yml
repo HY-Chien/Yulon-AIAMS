@@ -1,0 +1,35 @@
+services:
+  aiams:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aiams
+    restart: unless-stopped
+    runtime: nvidia
+    # Using entrypoint script instead of user directive
+    # to properly handle permissions
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    volumes:
+      # Mount the entire project directory
+      - .:/workspace/aiams
+      # Mount specific data directories with more explicit bindings
+      - ./data:/workspace/aiams/data
+      - ./runs:/workspace/aiams/runs
+      - ./model:/workspace/aiams/model
+    working_dir: /workspace/aiams
+    environment:
+      - PYTHONPATH=/workspace/aiams
+      # Basic NVIDIA environment variables for GPU access
+      - NVIDIA_VISIBLE_DEVICES=all
+      # Pass user/group IDs for the entrypoint script
+      - UID=${UID:-1000}
+      - GID=${GID:-1000}
+    network_mode: host
+    shm_size: 32g
+    tty: true

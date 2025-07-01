@@ -1,0 +1,33 @@
+services:
+  aiams:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        USER_ID: ${UID:-1000}
+        GROUP_ID: ${GID:-1000}
+    user: "${UID:-1000GIDGROUP_ID:-1000}"
+    container_name: aiams-dev
+    restart: unless-stopped
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    volumes:
+      # Mount the entire project directory for development
+      - .:/workspace/aiams
+    working_dir: /workspace/aiams
+    environment:
+      - PYTHONPATH=/workspace/aiams
+      # Basic NVIDIA environment variables for GPU access
+      - NVIDIA_VISIBLE_DEVICES=all
+      # Pass user/group IDs for the entrypoint script
+      - UID=${UID:-1000}
+      - GID=${GID:-1000}
+    network_mode: host
+    shm_size: 32g
+    tty: true
