@@ -1,4 +1,4 @@
-##!/bin/bash
+#!/bin/bash
 # Example script for converting Excel files to PDF
 
 # Set path to input Excel file

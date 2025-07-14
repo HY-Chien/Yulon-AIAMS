@@ -18,10 +18,6 @@ services:
     volumes:
       # Mount the entire project directory
       - .:/workspace/aiams
-      # Mount specific data directories with more explicit bindings
-      - ./data:/workspace/aiams/data
-      - ./runs:/workspace/aiams/runs
-      - ./model:/workspace/aiams/model
     working_dir: /workspace/aiams
     environment:
       - PYTHONPATH=/workspace/aiams
