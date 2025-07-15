@@ -161,8 +161,19 @@ class YOLOTrainer:
             verbose=verbose,
         )
 
-        # Return path to best model
-        return str(Path(project) / name / "weights" / "best.pt")
+        # Return path to best model 下面這行是原本的寫法
+        #return str(Path(project) / name / "weights" / "best.pt")
+
+
+        # 訓練完成後，從 model.trainer 屬性中獲取最終的儲存目錄
+        # trainer.save_dir 會是那個絕對正確的路徑，例如 runs/train/exp2
+        final_save_dir = model.trainer.save_dir
+        
+        # 使用這個絕對正確的路徑來組合 best.pt 的路徑
+        best_model_path = Path(final_save_dir) / "weights" / "best.pt"
+
+        # 確保回傳的是字串格式
+        return str(best_model_path)
 
     def validate(self, model_path, data_yaml, batch_size=16, imgsz=640, device=""):
         """Validate a trained YOLO model.

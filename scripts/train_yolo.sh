@@ -10,7 +10,9 @@ IMAGE_SIZE=769
 DEVICE=0
 PROJECT="./runs/train"
 EPOCHS=60
-NAME="Cv4R/icons=Cv4R_50k-${AUGMENTATION}-is(8,2)_epoch=${EPOCHS}_yolo12${MODEL_SIZE}-is${IMAGE_SIZE}"
+#修改這部分看路徑會不會正常
+#NAME="Cv4R/icons=Cv4R_50k-${AUGMENTATION}-is(8,2)_epoch=${EPOCHS}_yolo12${MODEL_SIZE}-is${IMAGE_SIZE}"
+NAME="Cv4R_50k-${AUGMENTATION}_yolo12${MODEL_SIZE}"
 # EXPORT_FORMAT="onnx"
 # Create model directory if it doesn't exist
 mkdir -p "$MODEL_DIR"
